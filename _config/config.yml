@@ -1,0 +1,6 @@
+---
+Name: 'saltedemail'
+---
+Email:
+  extensions:
+    - SaltedEmailExtension
