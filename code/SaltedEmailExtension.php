@@ -74,7 +74,7 @@ class SaltedEmailExtension extends DataExtension {
 
         // Debugger::inspect($mergedHtml);
 
-        return self::mailer()->sendHTML($to, $from, $subject, $mergedHtml, $this->owner->attachments, $headers,
+        return Email::mailer()->sendHTML($to, $from, $subject, $mergedHtml, $this->owner->attachments, $headers,
             $this->owner->plaintext_body);
     }
 }
