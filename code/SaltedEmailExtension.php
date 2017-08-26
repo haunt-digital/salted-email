@@ -56,18 +56,21 @@ class SaltedEmailExtension extends DataExtension {
         }
 
         Requirements::restore();
+        $css_path   =   realpath(Director::baseFolder() . Config::inst()->get('Email', 'CSSPath'));
+        $mergedHtml =   $this->body;
+        if (file_exists($css_path)) {
 
-        $emogrifier = new \Pelago\Emogrifier();
+            $emogrifier = new \Pelago\Emogrifier();
 
-        $html       =   $this->body;
-        $css_path   =   realpath(Director::baseFolder() . '/mainsite/templates/Email/css/styles.css');
-        $css        =   file_get_contents($css_path);
+            $html       =   $this->body;
+            $css        =   file_get_contents($css_path);
 
-        $emogrifier->setHtml($html);
-        $emogrifier->setCss($css);
-        $emogrifier->disableStyleBlocksParsing();
+            $emogrifier->setHtml($html);
+            $emogrifier->setCss($css);
+            $emogrifier->disableStyleBlocksParsing();
 
-        $mergedHtml = $emogrifier->emogrify();
+            $mergedHtml = $emogrifier->emogrify();
+        }
 
         // Debugger::inspect($mergedHtml);
 

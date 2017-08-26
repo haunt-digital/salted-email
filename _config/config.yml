@@ -4,3 +4,5 @@ Name: 'saltedemail'
 Email:
   extensions:
     - SaltedEmailExtension
+  CSSPath:
+    '/themes/default/css/email.css'
