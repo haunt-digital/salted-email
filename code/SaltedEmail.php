@@ -59,12 +59,12 @@ class SaltedEmail extends Email
         Requirements::restore();
 
         $css_path   =   realpath(Director::baseFolder() . Config::inst()->get('Email', 'CSSPath'));
-        $mergedHtml =   $this->owner->body;
-        if (file_exists($css_path)) {
 
+        $mergedHtml =   $this->body;
+        if (file_exists($css_path)) {
             $emogrifier = new \Pelago\Emogrifier();
 
-            $html       =   $this->owner->body;
+            $html       =   $this->body;
             $css        =   file_get_contents($css_path);
 
             $emogrifier->setHtml($html);

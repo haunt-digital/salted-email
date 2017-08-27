@@ -3,5 +3,5 @@ Hmm, how do I put this?
 2. In config.yml, define where your CSS is
     CSSPath:
       '/themes/default/css/email.css'
-3. Create email object like usual
+3. Create email objects extending SaltedEmail
 4. ->send()
