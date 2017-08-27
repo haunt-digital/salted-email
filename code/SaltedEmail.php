@@ -1,40 +1,41 @@
 <?php
 
-class SaltedEmailExtension extends DataExtension {
+class SaltedEmail extends Email
+{
     public function send($messageID = null)
     {
         Requirements::clear();
 
-        $this->owner->parseVariables();
+        $this->parseVariables();
 
-        if(empty($this->owner->from)) $this->owner->from = Email::config()->admin_email;
+        if(empty($this->from)) $this->from = Email::config()->admin_email;
 
-        $headers = $this->owner->customHeaders;
+        $headers = $this->customHeaders;
 
         if($messageID) $headers['X-SilverStripeMessageID'] = project() . '.' . $messageID;
 
         if(project()) $headers['X-SilverStripeSite'] = project();
 
 
-        $to = $this->owner->to;
-        $from = $this->owner->from;
-        $subject = $this->owner->subject;
-        if($sendAllTo = $this->owner->config()->send_all_emails_to) {
+        $to = $this->to;
+        $from = $this->from;
+        $subject = $this->subject;
+        if($sendAllTo = $this->config()->send_all_emails_to) {
             $subject .= " [addressed to $to";
             $to = $sendAllTo;
-            if($this->owner->cc) $subject .= ", cc to $this->owner->cc";
-            if($this->owner->bcc) $subject .= ", bcc to $this->owner->bcc";
+            if($this->cc) $subject .= ", cc to $this->cc";
+            if($this->bcc) $subject .= ", bcc to $this->bcc";
             $subject .= ']';
             unset($headers['Cc']);
             unset($headers['Bcc']);
 
         } else {
-            if($this->owner->cc) $headers['Cc'] = $this->owner->cc;
-            if($this->owner->bcc) $headers['Bcc'] = $this->owner->bcc;
+            if($this->cc) $headers['Cc'] = $this->cc;
+            if($this->bcc) $headers['Bcc'] = $this->bcc;
         }
 
 
-        if($ccAllTo = $this->owner->config()->cc_all_emails_to) {
+        if($ccAllTo = $this->config()->cc_all_emails_to) {
             if(!empty($headers['Cc']) && trim($headers['Cc'])) {
                 $headers['Cc'] .= ', ' . $ccAllTo;
             } else {
@@ -42,7 +43,7 @@ class SaltedEmailExtension extends DataExtension {
             }
         }
 
-        if($bccAllTo = $this->owner->config()->bcc_all_emails_to) {
+        if($bccAllTo = $this->config()->bcc_all_emails_to) {
             if(!empty($headers['Bcc']) && trim($headers['Bcc'])) {
                 $headers['Bcc'] .= ', ' . $bccAllTo;
             } else {
@@ -50,12 +51,13 @@ class SaltedEmailExtension extends DataExtension {
             }
         }
 
-        if($sendAllfrom = $this->owner->config()->send_all_emails_from) {
+        if($sendAllfrom = $this->config()->send_all_emails_from) {
             if($from) $subject .= " [from $from]";
             $from = $sendAllfrom;
         }
 
         Requirements::restore();
+
         $css_path   =   realpath(Director::baseFolder() . Config::inst()->get('Email', 'CSSPath'));
         $mergedHtml =   $this->owner->body;
         if (file_exists($css_path)) {
@@ -74,7 +76,6 @@ class SaltedEmailExtension extends DataExtension {
 
         // Debugger::inspect($mergedHtml);
 
-        return Email::mailer()->sendHTML($to, $from, $subject, $mergedHtml, $this->owner->attachments, $headers,
-            $this->owner->plaintext_body);
+        return self::mailer()->sendHTML($to, $from, $subject, $mergedHtml, $this->attachments, $headers, $this->plaintext_body);
     }
 }
