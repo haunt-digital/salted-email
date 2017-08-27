@@ -12,6 +12,6 @@
 		}
 	],
     "require": {
-        "pelago/emogrifier": "~1.2
-    },
+        "pelago/emogrifier": "~1.2"
+    }
 }
