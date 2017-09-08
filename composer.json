@@ -1,6 +1,6 @@
 {
 	"name": "salted-herring/salted-email",
-	"description": "Salted Herring's email extension",
+	"description": "Salted Herring's email extension that allows you to assign the CSS to your email templates easily",
 	"type": "silverstripe-module",
 	"homepage": "https://github.com/salted-herring/salted-email",
 	"license": "MIT",
