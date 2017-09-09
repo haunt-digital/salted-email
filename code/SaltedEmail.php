@@ -59,9 +59,6 @@ class SaltedEmail extends Email
         Requirements::restore();
 
         $css_path   =   realpath(Director::baseFolder() . Config::inst()->get('Email', 'CSSPath'));
-        if (empty($css_path)) {
-            $css_path   =   Director::baseFolder() . Config::inst()->get('Email', 'CSSPath');
-        }
 
         $mergedHtml =   $this->body;
         if (file_exists($css_path)) {
